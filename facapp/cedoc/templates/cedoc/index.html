@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="{% static 'cedoc/css/index.css' %}">
+    <title>Index of the page</title>
+</head>
+<body>
+    <h1>FAC-APP1</h1>
+    <h2>Docs no db</h2>
+    <ul>
+        <h3>
+        {% if user.is_authenticated %}
+            Ola, {{ user.first_name }}!
+            {% for doc,contributor in files.items%}
+            <li>
+                    <b>Title:</b> {{ doc.title }} - <b>File format:</b> {{ doc.fileFormat }}  - <b>File type</b> {{ doc.fileType}}
+                    <button onclick="location.href = '{% url 'url_edit' doc.id %}' ">Edit</button>
+                    <ul>
+                        {% for c in contributor %}
+                            <li>{{ c.contributor }}, {{ c.role }}</li>
+                        {% endfor %}
+                    </ul>
+
+            </li>
+            {% endfor %}
+            <br>
+            <button onclick="location.href = '{% url 'url_option' %}' ">Adicionar</button>
+            <button onclick="location.href = '{% url 'logout' %}' ">Logout</button>
+        {% else %}
+            <p>Você não está logado</p>
+            <button onclick="location.href = '{% url 'login' %}' ">Sign In</button>
+            <button onclick="location.href = '{% url 'url_signup' %}' ">Sign Up</button>
+        {% endif %}
+        </h3>
+
+    </ul>
+
+
+</body>
+</html>
